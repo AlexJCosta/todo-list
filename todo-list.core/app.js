@@ -12,6 +12,10 @@ db.sequelize
 		// Configuring Express
 		app.use(express.json());						
 
+        // Importing routes
+		const routes = require('./routes');
+        app.use('/api', routes);
+        
 		// Starting server
 		app.listen(config.port, () => console.log('Server runing in port: ' + config.port));
 	})
