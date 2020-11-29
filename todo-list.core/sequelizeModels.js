@@ -5,5 +5,11 @@ var db = {};
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
 	host: dbConfig.host,
 	dialect: dbConfig.dialect,
-	logging: false
+    logging: false,
+    operatorsAliases: false
 });
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

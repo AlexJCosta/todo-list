@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
+const db = require('./sequelizeModels');
 const config = require('./config');
+
 
 db.sequelize
 	.authenticate()
