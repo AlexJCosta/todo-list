@@ -126,13 +126,21 @@ module.exports = [
                                 "type": "object",
                                 "example": {
                                     "result": {
-                                        "id": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
-                                        "name": "Alex Costa",
-                                        "email": "email@gmail.com",
-                                        "password": "todo2021",
-                                        "createdAt": "2020-11-30T18:18:23.041Z",
-                                        "updatedAt": "2020-11-30T18:18:23.041Z",
-                                        "deletedAt": null
+                                        "user": [
+                                          {
+                                            "id": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                            "name": "name",
+                                            "email": "email@gmail.com",
+                                            "password": "test2d",
+                                            "createdAt": "2020-11-30T18:18:23.041Z",
+                                            "updatedAt": "2020-11-30T18:24:07.813Z",
+                                            "deletedAt": null
+                                          }
+                                        ],
+                                        "paging": {
+                                          "offset": "0",
+                                          "limit": "10"
+                                        }
                                       },
                                       "messages": [
                                         "Result success!"
@@ -366,6 +374,91 @@ module.exports = [
                                     "result": [],
                                     "messages": [
                                         "User not found"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } },
+    { path: '/signin', content: {
+        "post": {
+            "tags": [
+                "users"
+            ],
+            "parameters": [    
+            ],
+            "summary": "User authentication",
+            "description": "User authentication in ssytem",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "email",
+                                "password",
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "email@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "todo2021"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {},
+                                    "messages": [
+                                        "Result success!"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                    "description": "Error: Unauthorized",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {},
+                                    "messages": [
+                                        "Invalid user/password"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Error: Not Found",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {},
+                                    "messages": [
+                                        "Invalid user/password"
                                     ]
                                 }
                             }

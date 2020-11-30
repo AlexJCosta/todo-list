@@ -2,6 +2,8 @@ const User = require('../../sequelizeModels').User;
 const validator = require('./users.validator');
 const { v4: uuidv4 } = require('uuid');
 const HttpStatus = require('http-status-codes');
+const bcrypt= require('bcryptjs');
+const jwt = require('jwt-simple');
 
 exports.getAll = async (req, res) => {
     let result = {};
@@ -10,10 +12,10 @@ exports.getAll = async (req, res) => {
     let { page, limit } = req.headers;    
     
     try {        
-        result.user = await User.findAndCountAll({
+        result.user = await User.findAll({
             offset: page,
             limit: limit,
-            distinct: true,            
+            distinct: true  
         });
 
         // Paging        
@@ -111,7 +113,7 @@ exports.create = async (req, res) => {
                     id: uuidv4(), 
                     name: name, 
                     email: email, 
-                    password: password                    
+                    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
                 });
             } catch (err) {
                 if (err.errors) {
@@ -222,26 +224,25 @@ exports.login = async (req, res) => {
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let { email, password } = req.body;
-
+    
     try {        
         const { isValidUser, errorsUser } = validator.login({ email, password });
         
-        if (isValidUser) {
+        if (isValidUser) {            
             const currentUser = await User.findOne({ where: { email: email } });                                                       
             
-            if (currentUser) {
+            if (currentUser) {                                
                 const passwordValidator = await bcrypt.compareSync( password, currentUser.password );
-                
                 let now = new Date().getTime();
-
+                
                 if (passwordValidator) {
                     const payload = {
                         user: currentUser,
                         admin: true,
                         master_admin: true,
                         iat: now,
-                        exp: now + ( config.security.tokenLife * (1000 * 60 * 60) )
-                    }                                
+                        exp: now + ( 6 * (1000 * 60 * 60) )
+                    }                    
                     
                     messages.push('Success!');
                     result = payload;
@@ -249,7 +250,7 @@ exports.login = async (req, res) => {
 
                     return res.status(statusCode).json({
                         result, 
-                        token: jwt.encode(payload, config.security.jwtPrivateKey), 
+                        token: jwt.encode(payload, "secr3t"), 
                         messages 
                     });
                 } else {
