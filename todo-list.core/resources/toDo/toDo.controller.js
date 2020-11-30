@@ -1,5 +1,5 @@
 const Todo = require('../../sequelizeModels').Todo;
-const validatorTodo = require('./todo.validator');
+const validatorTodo = require('./toDo.validator');
 
 exports.getAll = async (req, res) => {}
 
