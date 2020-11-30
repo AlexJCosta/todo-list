@@ -16,6 +16,25 @@ router.post('/users/email', usersController.findByEmail);
 router.post('/users', usersController.create);
 router.patch('/users/:id', usersController.update);
 router.delete('/users/:id', usersController.deleteById);
-router.post('/users/login', usersController.login);
+router.post('/signin', usersController.login);
+
+// ToDo routes
+const toDosController = require('./resources/toDo/toDo.controller');
+
+router.get('/toDos', toDosController.getAll);
+router.get('/toDos/:id', toDosController.findById);
+router.post('/toDos', toDosController.create);
+router.patch('/toDos/:id', toDosController.update);
+router.delete('/toDos/:id', toDosController.deleteById);
+
+// ToDoItem routes
+const toDoitemsController = require('./resources/toDoItem/toDoItem.controller');
+
+router.get('/toDoItems', toDoitemsController.getAll);
+router.get('/toDoItems/:id', toDoitemsController.findById);
+router.post('/toDoItems', toDoitemsController.create);
+router.patch('/toDoItems/:id', toDoitemsController.update);
+router.delete('/toDoItems/:id', toDoitemsController.deleteById);
+
 
 module.exports = router;
