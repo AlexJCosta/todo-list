@@ -50,7 +50,18 @@ module.exports = [
                             "schema": {
                                 "type": "object",
                                 "example": {
-                                    
+                                    "result": {
+                                        "id": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                        "name": "Alex Costa",
+                                        "email": "email@gmail.com",
+                                        "password": "todo2021",
+                                        "updatedAt": "2020-11-30T18:18:23.041Z",
+                                        "createdAt": "2020-11-30T18:18:23.041Z",
+                                        "deletedAt": null
+                                      },
+                                      "messages": [
+                                        "User created!"
+                                      ]
                                 }
                             }
                         }
@@ -114,7 +125,18 @@ module.exports = [
                             "schema": {
                                 "type": "object",
                                 "example": {
-
+                                    "result": {
+                                        "id": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                        "name": "Alex Costa",
+                                        "email": "email@gmail.com",
+                                        "password": "todo2021",
+                                        "createdAt": "2020-11-30T18:18:23.041Z",
+                                        "updatedAt": "2020-11-30T18:18:23.041Z",
+                                        "deletedAt": null
+                                      },
+                                      "messages": [
+                                        "Result success!"
+                                      ]
                                 }
                             }
                         }
@@ -155,7 +177,18 @@ module.exports = [
                             "schema": {
                                 "type": "object",
                                 "example": {
-                                   
+                                    "result": {
+                                        "id": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                        "name": "Alex Costa",
+                                        "email": "email@gmail.com",
+                                        "password": "todo2021",
+                                        "createdAt": "2020-11-30T18:18:23.041Z",
+                                        "updatedAt": "2020-11-30T18:18:23.041Z",
+                                        "deletedAt": null
+                                      },
+                                      "messages": [
+                                        "Result success!"
+                                      ]
                                 }
                             }
                         }
@@ -232,7 +265,18 @@ module.exports = [
                             "schema": {
                                 "type": "object",
                                 "example": {                                    
-                                    
+                                    "result": {
+                                        "id": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                        "name": "name",
+                                        "email": "email@gmail.com",
+                                        "password": "test2d",
+                                        "createdAt": "2020-11-30T18:18:23.041Z",
+                                        "updatedAt": "2020-11-30T18:24:07.813Z",
+                                        "deletedAt": null
+                                      },
+                                      "messages": [
+                                        "User updated!"
+                                      ]
                                 }
                             }
                         }

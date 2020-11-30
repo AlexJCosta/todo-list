@@ -1,6 +1,7 @@
 const User = require('../../sequelizeModels').User;
 const validator = require('./users.validator');
 const { v4: uuidv4 } = require('uuid');
+const HttpStatus = require('http-status-codes');
 
 exports.getAll = async (req, res) => {
     let result = {};
@@ -102,11 +103,10 @@ exports.create = async (req, res) => {
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let { name, email, password } = req.body;    
     
-    try {
-        const { isValidUser, errorsUser } = validator.create({ name, email, password });
-        
+    try {        
+        const { isValidUser, errorsUser } = validator.create({ name, email, password });        
         if (isValidUser) {  
-            try {
+            try {                
                 result = await User.create({ 
                     id: uuidv4(), 
                     name: name, 
@@ -147,22 +147,22 @@ exports.update = async (req, res) => {
     let result = {};
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+    let targetId = req.params.id;
     let { name, email, password } = req.body;    
     
     try {
         const { isValidUser, errorsUser } = validator.update({ name, email, password });
         
         if (isValidUser) {                 
+            console.log('ok',  name, email, password, targetId);
             const user = await User.findOne({ where: { id: targetId } });                                               
             
             if (user) {                
-                user.name = name;
-                user.password = password;
-                user.email = user.email;
-                
+                if (user.name) user.name = name;
+                if (user.password) user.password = password;                
                 result = await user.save();            
                 statusCode = HttpStatus.OK;         
-                   
+
                 messages.push('User updated!');
             } else {
                 result = {};
