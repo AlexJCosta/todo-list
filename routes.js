@@ -16,13 +16,16 @@ router.post('/users/email', usersController.findByEmail);
 router.post('/users', usersController.create);
 router.patch('/users/:id', usersController.update);
 router.delete('/users/:id', usersController.deleteById);
-router.post('/signin', usersController.login);
+router.get('/signin', usersController.login);
+router.post('/users/send', usersController.sendEmails);
 
 // ToDo routes
 const toDosController = require('./resources/toDo/toDo.controller');
 
 router.get('/toDos', toDosController.getAll);
+router.get('/toDos/user/:userId', toDosController.getAllByUserId);
 router.get('/toDos/:id', toDosController.findById);
+router.get('/toDos/name/:name', toDosController.findByName);
 router.post('/toDos', toDosController.create);
 router.patch('/toDos/:id', toDosController.update);
 router.delete('/toDos/:id', toDosController.deleteById);

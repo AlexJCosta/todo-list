@@ -2,6 +2,8 @@ const ToDo = require('../../sequelizeModels').ToDo;
 const validator = require('./toDo.validator');
 const { v4: uuidv4 } = require('uuid');
 const HttpStatus = require('http-status-codes');
+const { ToDoItem } = require('../../sequelizeModels');
+
 
 exports.getAll = async (req, res) => {    
     let result = {};
@@ -13,7 +15,46 @@ exports.getAll = async (req, res) => {
         result.todo = await ToDo.findAll({
             offset: page,
             limit: limit,
-            distinct: true 
+            distinct: true,
+            include: [
+                {   model: ToDoItem, as: 'toDoItemsToDo' }
+            ]
+        });
+        
+        // Paging        
+        result.paging = { offset: page, limit: limit };
+
+        statusCode = HttpStatus.OK;
+        messages.push('Result success!');
+
+        return res.status(statusCode).json({ result, messages });
+    } catch (err) {        
+        if (err.errors) {
+            messages.push(err.errors[0].message);
+            err = err.errors;
+        }
+
+        return res.status(statusCode).json({ result: {}, messages });
+    }
+}
+
+exports.getAllByUserId = async (req, res) => {    
+    let result = {};
+    let messages = [];
+    let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+    let targetId = req.params.userId;
+    let { page, limit } = req.headers;    
+    
+    try {   
+        console.log(targetId);      
+        result.todo = await ToDo.findAll({
+            where : { toDoUserId: targetId },
+            offset: page,
+            limit: limit,
+            distinct: true,
+            include: [
+                {   model: ToDoItem, as: 'toDoItemsToDo' }
+            ]
         });
         
         // Paging        
@@ -65,12 +106,48 @@ exports.findById = async (req, res) => {
     }
 }
 
+exports.findByName = async (req, res) => {
+    let result = {};
+    let messages = [];
+    let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+    let targetName = req.params.name;
+
+    try {        
+        const todo = await ToDo.findOne({
+            where: { name: targetName },
+            distinct: true,
+            include: [
+                {   model: ToDoItem, as: 'toDoItemsToDo' }
+            ]
+        });
+
+        if (todo) {
+            result = todo;
+            messages.push('Result success!');
+            statusCode = HttpStatus.OK;
+        } else {
+            result = {};
+            messages.push('User not found');
+            statusCode = HttpStatus.NOT_FOUND;
+        }
+
+        return res.status(statusCode).json({ result, messages });
+    } catch (err) {        
+        if (err.errors) {
+            messages.push(err.errors[0].message);
+            err = err.errors;
+        }
+
+        return res.status(statusCode).json({ result: {}, messages });
+    }
+}
+
 exports.create = async (req, res) => {
     let result = {};
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let { name, toDoUserId } = req.body;    
-    
+    console.log(name, toDoUserId);
     try {        
         const { isValid, errors } = validator.create({ name });        
         if (isValid) {              

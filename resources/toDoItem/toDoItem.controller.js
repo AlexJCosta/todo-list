@@ -134,7 +134,7 @@ exports.update = async (req, res) => {
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let targetId = req.params.id;
     let { name, toDoItemUserId, toDoId } = req.body;    
-    
+    console.log('req.body');
     try {
         const { isValid, errors } = validator.update({ name, toDoItemUserId, toDoId });
         
@@ -193,12 +193,11 @@ exports.deleteById = async (req, res) => {
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let targetId = req.params.id;    
-
     try {
         const toDoItem = await ToDoItem.findOne({ where: { id: targetId } });                                               
         
-        if (toDoItem) {          
-            result.toDoItem = await ToDo.destroy({ where: { id: targetId } });
+        if (toDoItem) {                      
+            result.toDoItem = await ToDoItem.destroy({ where: { id: targetId } });
             messages.push('ToDoItem deleted!');
             statusCode = HttpStatus.OK;
         } else {

@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const HttpStatus = require('http-status-codes');
 const bcrypt= require('bcryptjs');
 const jwt = require('jwt-simple');
+const nodeMailer = require('../core/services/nodemailer');
 
 exports.getAll = async (req, res) => {
     let result = {};
@@ -223,7 +224,7 @@ exports.login = async (req, res) => {
     let result = {};
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    let { email, password } = req.body;
+    let { email, password } = req.headers;
     
     try {        
         const { isValidUser, errorsUser } = validator.login({ email, password });
@@ -234,7 +235,7 @@ exports.login = async (req, res) => {
             if (currentUser) {                                
                 const passwordValidator = await bcrypt.compareSync( password, currentUser.password );
                 let now = new Date().getTime();
-                
+                console.log(passwordValidator);
                 if (passwordValidator) {
                     const payload = {
                         user: currentUser,
@@ -277,5 +278,35 @@ exports.login = async (req, res) => {
         }
         
         return res.status(statusCode).json({ result: {}, messages });
+    }
+}
+
+exports.sendEmails = async (req, res) => {
+    let result = {};
+    let messages = [];
+    let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+    let emails = req.body;
+    
+    try {        
+        const user = await User.findOne({ where: { id: "dac34c51-8c03-44df-9228-fe76d29f8b0d" } });
+        
+        if (user) {
+            console.log(req.body);
+            emails.forEach(e => {
+                console.log('ok');
+                nodeMailer.sendEmailWithUrl(e, 'http://localhost:4200/#/my-list/TESTE');
+            });
+
+            messages.push('Emails sendeds.');
+            statusCode = HttpStatus.OK;
+        }
+        else {
+            messages.push('User not found.');
+            statusCode = HttpStatus.NOT_FOUND;
+        }
+
+        return res.status(statusCode).json({ result, messages });
+    } catch (err) {
+        return res.status(statusCode).json({ result: err, messages });
     }
 }

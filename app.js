@@ -2,15 +2,19 @@ const express = require('express');
 const app = express();
 const db = require('./sequelizeModels');
 const config = require('./config');
-
+const cors = require('cors');
 
 db.sequelize
 	.authenticate()
 	.then(async () => {			
-		await db.sequelize.sync();
+        await db.sequelize.sync();
+        
+        // Deleting data base
+		//await db.sequelize.drop();
 						
 		// Configuring Express
 		app.use(express.json());						
+		app.use(cors());
 
         // Importing routes
 		const routes = require('./routes');

@@ -219,7 +219,7 @@ module.exports = [
                     }
                 }
             }
-        },
+        },        
         "patch": {
             "tags": [
                 "toDos"
@@ -368,6 +368,160 @@ module.exports = [
                                 "type": "object",
                                 "example": {
                                     "result": [],
+                                    "messages": [
+                                        "ToDo not found"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } },
+    { path: '/toDos/user/{userId}', content: {
+        "get": {
+            "tags": [
+                "toDos"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "userId",
+                    "schema": {
+                        "type": "string",
+                        "example": "we41bdf04-5bb9-41ae-9718-453bd17c023213r"
+                    },
+                    "required": true,
+                    "description": "ToDo user ID"
+                }
+            ],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "summary": "Find ToDo by user ID",
+            "description": "Find ToDo by user ID in system",
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {
+                                        "id": "68d6b066-cbc5-4042-b6c7-94b4f6907f20",
+                                        "name": "My To Do List",
+                                        "createdAt": "2020-11-30T20:51:05.222Z",
+                                        "updatedAt": "2020-11-30T20:51:05.222Z",
+                                        "deletedAt": null,
+                                        "toDoUserId": "dac34c51-8c03-44df-9228-fe76d29f8b0d"
+                                      },
+                                      "messages": [
+                                        "Result success!"
+                                      ]
+                                }
+                            }
+                        }
+                    }
+                },               
+                "404": {
+                    "description": "Error: Not Found",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {},
+                                    "messages": [
+                                        "ToDo not found"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } },
+    { path: '/toDos/name/{name}', content: {
+        "get": {
+            "tags": [
+                "toDos"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "name",
+                    "schema": {
+                        "type": "string",
+                        "example": "we41bdf04-5bb9-41ae-9718-453bd17c023213r"
+                    },
+                    "required": true,
+                    "description": "ToDo name"
+                }
+            ],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "summary": "Find ToDo by name",
+            "description": "Find ToDo by name in system",
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {
+                                        "id": "d3521871-252c-494b-97e4-4508e8f513cb",
+                                        "name": "TODOLIST",
+                                        "createdAt": "2020-12-02T21:15:00.411Z",
+                                        "updatedAt": "2020-12-02T21:15:00.411Z",
+                                        "deletedAt": null,
+                                        "toDoUserId": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                        "toDoItemsToDo": [
+                                          {
+                                            "id": "e6e97280-a278-4bd9-89a8-521f418402cb",
+                                            "name": "ITEM01",
+                                            "createdAt": "2020-12-02T21:15:09.183Z",
+                                            "updatedAt": "2020-12-02T21:15:09.183Z",
+                                            "deletedAt": null,
+                                            "toDoItemUserId": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                            "toDoId": "d3521871-252c-494b-97e4-4508e8f513cb"
+                                          },
+                                          {
+                                            "id": "baef742b-32f7-472b-bc36-356faee739bb",
+                                            "name": "ITEM02",
+                                            "createdAt": "2020-12-02T21:15:13.916Z",
+                                            "updatedAt": "2020-12-02T21:15:13.916Z",
+                                            "deletedAt": null,
+                                            "toDoItemUserId": "dac34c51-8c03-44df-9228-fe76d29f8b0d",
+                                            "toDoId": "d3521871-252c-494b-97e4-4508e8f513cb"
+                                          }
+                                        ]
+                                      },
+                                      "messages": [
+                                        "Result success!"
+                                      ]
+                                }
+                            }
+                        }
+                    }
+                },               
+                "404": {
+                    "description": "Error: Not Found",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {},
                                     "messages": [
                                         "ToDo not found"
                                     ]
