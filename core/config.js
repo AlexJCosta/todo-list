@@ -1,5 +1,5 @@
 module.exports = {
-    api_url: process.env.API_URL || 'http://localhost:3000/api',
+    api_url: process.env.API_URL || 'https://todo-list-be.herokuapp.com:3000/api',
     port: process.env.DB_PORT || 5432,
     database: process.env.DB_NAME || 'dc2lnnrb8c2p4n',
     username: process.env.DB_USERNAME || 'mecbbxbkwklxtz',
