@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const db = require('./sequelizeModels');
-const config = require('./config');
+const config = require('./core/config');
 const cors = require('cors');
 
 db.sequelize
@@ -19,9 +19,10 @@ db.sequelize
         // Importing routes
 		const routes = require('./routes');
         app.use('/api', routes);
-        
+		
+		var porta = process.env.PORT || 3000;
 		// Starting server
-		app.listen(config.port, () => console.log('Server runing in port: ' + config.port));
+		app.listen(config.port, () => console.log('Server runing in port: ' + porta));
 	})
 	.catch(err => {
 		console.error('Unable to connect to the database:', err);

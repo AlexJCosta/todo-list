@@ -1,4 +1,4 @@
-const conf = require('./config');
+const conf = require('./core/config');
 
 let paths = {};
 
