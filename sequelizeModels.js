@@ -4,8 +4,18 @@ var db = {};
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
 	host: dbConfig.host,
-	dialect: dbConfig.dialect,
-    logging: false,
+    dialect: dbConfig.dialect,
+    database: dbConfig.database,
+    username: dbConfig.username,
+    password: dbConfig.password,
+    port: 5432,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    },
+    logging: true,
     operatorsAliases: false
 });
 
