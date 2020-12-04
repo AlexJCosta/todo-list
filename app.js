@@ -14,7 +14,8 @@ db.sequelize
 						
 		// Configuring Express
 		app.use(express.json());						
-		app.use(cors());
+		//app.use(cors());
+		app.options('*', cors())
 
         // Importing routes
 		const routes = require('./routes');
@@ -22,7 +23,7 @@ db.sequelize
 		
 		var porta = process.env.PORT || 3000;
 		// Starting server
-		app.listen(porta, () => console.log('Server runing in port: ' + porta));
+		app.listen(config.port, () => console.log('Server runing in port: ' + porta));
 	})
 	.catch(err => {
 		console.error('Unable to connect to the database:', err);
