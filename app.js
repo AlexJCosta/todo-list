@@ -14,8 +14,7 @@ db.sequelize
 						
 		// Configuring Express
 		app.use(express.json());						
-		app.use(cors());
-		app.options('*', cors())
+		app.use(cors({origin: '*'}));
 
         // Importing routes
 		const routes = require('./routes');
