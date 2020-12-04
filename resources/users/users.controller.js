@@ -109,21 +109,28 @@ exports.create = async (req, res) => {
     try {        
         const { isValidUser, errorsUser } = validator.create({ name, email, password });        
         if (isValidUser) {  
-            try {                
-                result = await User.create({ 
-                    id: uuidv4(), 
-                    name: name, 
-                    email: email, 
-                    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-                });
-            } catch (err) {
-                if (err.errors) {
-                    statusCode = HttpStatus.UNPROCESSABLE_ENTITY;
-                    messages.push(err.errors[0].message);
-                    err = err.errors;
+            let userAlreadyExist = await User.findOne({ where: { email: email } });
+
+            if (!userAlreadyExist) {
+                try {               
+                    result = await User.create({ 
+                        id: uuidv4(), 
+                        name: name, 
+                        email: email, 
+                        password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+                    });
+                } catch (err) {
+                    if (err.errors) {
+                        statusCode = HttpStatus.UNPROCESSABLE_ENTITY;
+                        messages.push(err.errors[0].message);
+                        err = err.errors;
+                    }
+            
+                    return res.status(statusCode).json({ result: {}, messages });
                 }
-        
-                return res.status(statusCode).json({ result: {}, messages });
+            }else{
+                statusCode = HttpStatus.CONFLICT;
+                messages.push('User with email already exist.');
             }
 
             messages.push('User created!');

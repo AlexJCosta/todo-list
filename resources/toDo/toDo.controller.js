@@ -147,7 +147,7 @@ exports.create = async (req, res) => {
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let { name, toDoUserId } = req.body;    
-    console.log(name, toDoUserId);
+    
     try {        
         const { isValid, errors } = validator.create({ name });        
         if (isValid) {              

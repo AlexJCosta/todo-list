@@ -79,9 +79,9 @@ exports.create = async (req, res) => {
         if (isValid) {  
             const todo = await ToDo.findOne({ where: { id: toDoId } });      
             
-            if (todo) {
+            if (todo) {                
                 const user = await User.findOne({ where: { id: toDoItemUserId } });      
-                console.log(user);
+                
                 if (user) {
                     try {                
                         result = await ToDoItem.create({ 
@@ -134,7 +134,7 @@ exports.update = async (req, res) => {
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let targetId = req.params.id;
     let { name, toDoItemUserId, toDoId } = req.body;    
-    console.log('req.body');
+    
     try {
         const { isValid, errors } = validator.update({ name, toDoItemUserId, toDoId });
         
