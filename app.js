@@ -22,7 +22,7 @@ db.sequelize
 		
 		var porta = process.env.PORT || 3000;
 		// Starting server
-		app.listen(config.port, () => console.log('Server runing in port: ' + porta));
+		app.listen(porta, () => console.log('Server runing in port: ' + porta));
 	})
 	.catch(err => {
 		console.error('Unable to connect to the database:', err);
