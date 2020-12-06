@@ -3,6 +3,11 @@ const conf = require('./core/config');
 let paths = {};
 
 // importing documentations
+const userPublicDoc = require('./resources/users/users.public.documentation');
+for (let i = 0; i < userPublicDoc.length; i++) {
+	paths[userPublicDoc[i].path] = userPublicDoc[i].content;
+}
+
 const userDoc = require('./resources/users/users.documentation');
 for (let i = 0; i < userDoc.length; i++) {
 	paths[userDoc[i].path] = userDoc[i].content;
@@ -43,6 +48,10 @@ module.exports = {
 		}
 	],
 	"tags": [		
+		{
+			"name": "public",
+			"description": "Authentication"
+		},
 		{
 			"name": "users",
 			"description": "Users"

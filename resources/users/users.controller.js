@@ -121,6 +121,9 @@ exports.create = async (req, res) => {
                         email: email, 
                         password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
                     });
+
+                    messages.push('User created!');
+                    statusCode = HttpStatus.OK;           
                 } catch (err) {
                     if (err.errors) {
                         statusCode = HttpStatus.UNPROCESSABLE_ENTITY;
@@ -133,10 +136,7 @@ exports.create = async (req, res) => {
             }else{
                 statusCode = HttpStatus.CONFLICT;
                 messages.push('User with email already exist.');
-            }
-
-            messages.push('User created!');
-            statusCode = HttpStatus.OK;           
+            }            
         } else {            
             errorsUser.map(error => messages.push(error));
          

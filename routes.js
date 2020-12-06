@@ -9,10 +9,12 @@ router.use('/swagger', swaggerUi.serve);
 router.get('/swagger', swaggerUi.setup(swaggerDocument));
 
 // Users routes
-const usersController = require('./resources/users/users.controller');
+const usersPublicController = require('./resources/users/users.controller');
 
-router.post('/signin', usersController.login);
-router.post('/signup', usersController.create);
+router.post('/signin', usersPublicController.login);
+router.post('/signup', usersPublicController.create);
+
+const usersController = require('./resources/users/users.controller');
 
 //router.all('/users*', requireAuthentication.authenticate());
 router.get('/users', usersController.getAll);
