@@ -1,5 +1,5 @@
-module.exports = [
-    { path: '/users', content: {
+module.exports = [    
+    { path: '/signup', content: {
         "post": {
             "tags": [
                 "users"
@@ -84,7 +84,9 @@ module.exports = [
                     }
                 }
             }
-        },
+        }
+    } },
+    { path: '/users', content: {        
         "get": {
             "tags": [
                 "users"
@@ -467,5 +469,79 @@ module.exports = [
                 }
             }
         }
-    } }
+    } },
+    { path: '/users/send', content: {
+        "post": {
+            "tags": [
+                "users"
+            ],            
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [                               
+                            ],
+                            "properties": {
+                                "userId": {
+                                    "type": "string",
+                                    "example": "dac34c51-8c03-44df-9228-fe76d29f8b0d"
+                                },
+                                "listName": {
+                                    "type": "string",
+                                    "example": "mylist"
+                                },
+                                "emails": {
+                                    "type": "string",
+                                    "example": ['alex@email.com']
+                                }                               
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "summary": "Send emails",
+            "description": "Send emails",
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {                                
+                                    "result": {},
+                                    "messages": [
+                                        "Emails sendeds."
+                                    ]                                      
+                                }
+                            }
+                        }
+                    }
+                },               
+                "404": {
+                    "description": "Error: Not Found",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "result": {},
+                                    "messages": [
+                                        "User not found"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } },
 ]

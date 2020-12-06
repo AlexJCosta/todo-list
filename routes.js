@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.js');
+const requireAuthentication = require('./passport')();
 
 // swagger router
 router.use('/swagger', swaggerUi.serve);
@@ -10,18 +11,21 @@ router.get('/swagger', swaggerUi.setup(swaggerDocument));
 // Users routes
 const usersController = require('./resources/users/users.controller');
 
+router.post('/signin', usersController.login);
+router.post('/signup', usersController.create);
+
+//router.all('/users*', requireAuthentication.authenticate());
 router.get('/users', usersController.getAll);
 router.get('/users/:id', usersController.findById);
 router.post('/users/email', usersController.findByEmail);
-router.post('/users', usersController.create);
 router.patch('/users/:id', usersController.update);
 router.delete('/users/:id', usersController.deleteById);
-router.get('/signin', usersController.login);
 router.post('/users/send', usersController.sendEmails);
 
 // ToDo routes
 const toDosController = require('./resources/toDo/toDo.controller');
 
+//router.all('/toDos*', requireAuthentication.authenticate());
 router.get('/toDos', toDosController.getAll);
 router.get('/toDos/user/:userId', toDosController.getAllByUserId);
 router.get('/toDos/:id', toDosController.findById);
@@ -33,6 +37,7 @@ router.delete('/toDos/:id', toDosController.deleteById);
 // ToDoItem routes
 const toDoitemsController = require('./resources/toDoItem/toDoItem.controller');
 
+//router.all('/toDoItems*', requireAuthentication.authenticate());
 router.get('/toDoItems', toDoitemsController.getAll);
 router.get('/toDoItems/:id', toDoitemsController.findById);
 router.post('/toDoItems', toDoitemsController.create);

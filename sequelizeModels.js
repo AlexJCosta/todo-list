@@ -3,7 +3,7 @@ const dbConfig = require('./core/config');
 var db = {};
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
-	host: dbConfig.host,
+	/*host: dbConfig.host,
     dialect: dbConfig.dialect,
     database: dbConfig.database,
     username: dbConfig.username,
@@ -14,8 +14,12 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.p
             require: true,
             rejectUnauthorized: false
         }
-    },
-    logging: true,
+    },*/
+
+    host: dbConfig.host,
+	dialect: dbConfig.dialect,	
+
+    logging: false,
     operatorsAliases: false
 });
 

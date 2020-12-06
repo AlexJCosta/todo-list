@@ -4,7 +4,9 @@ const { v4: uuidv4 } = require('uuid');
 const HttpStatus = require('http-status-codes');
 const bcrypt= require('bcryptjs');
 const jwt = require('jwt-simple');
-const nodeMailer = require('../core/services/nodemailer');
+const nodeMailer = require('../../core/nodemailer');
+const configSecurity = require('../../core/default.json');
+const config = require('../../core/config');
 
 exports.getAll = async (req, res) => {
     let result = {};
@@ -41,7 +43,7 @@ exports.findById = async (req, res) => {
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let targetId = req.params.id;
-
+    
     try {        
         const user = await User.findOne({
             where: { id: targetId }            
@@ -231,8 +233,8 @@ exports.login = async (req, res) => {
     let result = {};
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    let { email, password } = req.headers;
-    
+    let { email, password } = req.body;
+
     try {        
         const { isValidUser, errorsUser } = validator.login({ email, password });
         
@@ -258,7 +260,7 @@ exports.login = async (req, res) => {
 
                     return res.status(statusCode).json({
                         result, 
-                        token: jwt.encode(payload, "secr3t"), 
+                        token: jwt.encode(payload, configSecurity.security.jwtPrivateKey), 
                         messages 
                     });
                 } else {
@@ -292,16 +294,14 @@ exports.sendEmails = async (req, res) => {
     let result = {};
     let messages = [];
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    let emails = req.body;
+    let { userId, listName, emails } = req.body;
     
     try {        
-        const user = await User.findOne({ where: { id: "dac34c51-8c03-44df-9228-fe76d29f8b0d" } });
+        const user = await User.findOne({ where: { id: userId } });
         
-        if (user) {
-            console.log(req.body);
-            emails.forEach(e => {
-                console.log('ok');
-                nodeMailer.sendEmailWithUrl(e, 'http://localhost:4200/#/my-list/TESTE');
+        if (user) {            
+            emails.forEach(e => {                
+                nodeMailer.sendEmailWithUrl(e, config.api_url_prod + '/#/my-list/'+ listName);
             });
 
             messages.push('Emails sendeds.');

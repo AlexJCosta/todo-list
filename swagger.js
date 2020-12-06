@@ -27,7 +27,15 @@ module.exports = {
 		"description": "To Do List: Documentation API"
 	},
 	"components": {
-		
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+    			"name": "Authorization",
+    			"description": "Enter your bearer token in the format **bearer &lt;token>**"
+			}
+		}
 	},
 	"servers": [
 		{

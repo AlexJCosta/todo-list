@@ -1,0 +1,15 @@
+{  
+  "security": {
+    "jwtPrivateKey": "secr3t",
+    "saltRounds": 10,
+    "enableHTTPS": true,
+    "key": "/security/keys/key.pem",
+    "certificate": "/security/keys/cert.pem",
+    "tokenLife": 6
+  }, 
+  "log": {
+    "enabled": true,
+    "name": "",
+    "level": ""
+  }
+}
